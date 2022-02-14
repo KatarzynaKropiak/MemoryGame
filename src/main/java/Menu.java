@@ -3,10 +3,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
+
+
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +36,13 @@ public class Menu extends Application {
     private static final int NUM_PER_ROW = 3;
 
     public Flag selected = null;
+    private LocalTime startTime;
+    private LocalTime endTime;
+    private long playerScore;
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
 
     public Stage primaryStage;
 
@@ -55,6 +68,8 @@ public class Menu extends Application {
         root.setBackground(background);
         root.setAlignment(Pos.TOP_LEFT);
 
+        startTime = LocalTime.now();
+        System.out.print("Start time: " + startTime);
 
         List<Flag> flags = new ArrayList<>();
         flags.add(new Flag(card1, this));
@@ -77,6 +92,7 @@ public class Menu extends Application {
             flag.setTranslateX(110 + 160 * (i % NUM_PER_ROW));
             flag.setTranslateY(30 + 110 * (i / NUM_PER_ROW));
             root.getChildren().add(flag);
+
         }
 
         return root;
@@ -96,6 +112,20 @@ public class Menu extends Application {
         root.setPrefSize(700, 500);
         root.setBackground(background);
         root.setAlignment(Pos.CENTER);
+//        root.setGridLinesVisible(true);
+
+        ColumnConstraints col0 = new ColumnConstraints(50);
+        root.getColumnConstraints().add(col0);
+
+        ColumnConstraints col1 = new ColumnConstraints(100);
+        root.getColumnConstraints().add(col1);
+
+        ColumnConstraints col2 = new ColumnConstraints(50);
+        root.getColumnConstraints().add(col2);
+
+        ColumnConstraints col3 = new ColumnConstraints(100);
+        root.getColumnConstraints().add(col3);
+
 
         RowConstraints row1 = new RowConstraints(100);
         root.getRowConstraints().add(row1);
@@ -103,32 +133,106 @@ public class Menu extends Application {
         RowConstraints row2 = new RowConstraints(50);
         root.getRowConstraints().add(row2);
 
+        RowConstraints row3 = new RowConstraints(50);
+        root.getRowConstraints().add(row3);
+
+        RowConstraints row4 = new RowConstraints(100);
+        root.getRowConstraints().add(row4);
+
+
+        Button newbtnS = new Button();
+        newbtnS.setText(getScoreAsString());
+        newbtnS.setMinWidth(300);
+        newbtnS.setMinHeight(75);
+        newbtnS.setStyle(" -fx-font-size: 2.5em; -fx-font-weight: BOLD; -fx-background-color: BLACK;  -fx-text-fill: STEELBLUE; -fx-border-color: STEELBLUE; ");
+
+        root.add(newbtnS, 0, 0);
 
         Button newbtn1 = new Button();
-        newbtn1.setText("NEW GAME");
+        newbtn1.setText("SAVE");
         newbtn1.setMinWidth(200);
         newbtn1.setStyle("  -fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK; ");
 
         newbtn1.setOnAction((e) -> {
-            game();
+            setName();
         });
-        root.add(newbtn1, 3, 0);
+        root.add(newbtn1, 1, 2);
 
         Button newbtn2 = new Button();
-        newbtn2.setText("EXIT");
+        newbtn2.setText("NEW GAME");
         newbtn2.setMinWidth(200);
         newbtn2.setStyle("  -fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK; ");
 
         newbtn2.setOnAction((e) -> {
-           close();
+            game();
         });
-        root.add(newbtn2, 3, 1);
+        root.add(newbtn2, 1, 3);
+
+        Button newbtn3 = new Button();
+        newbtn3.setText("EXIT");
+        newbtn3.setMinWidth(200);
+        newbtn3.setStyle("  -fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK; ");
+
+        newbtn3.setOnAction((e) -> {
+            close();
+        });
+        root.add(newbtn3, 1, 4);
 
         return root;
     }
 
+    public Parent createName() {
+        BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, false, true, false);
+        BackgroundFill backgroundFill = new BackgroundFill(Color.BLACK, null, null);
+        BackgroundImage backgroundImage = new BackgroundImage(imageback1, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+        BackgroundImage[] bi = new BackgroundImage[1];
+        bi[0] = backgroundImage;
+        BackgroundFill[] bf = new BackgroundFill[1];
+        bf[0] = backgroundFill;
+        Background background = new Background(bf, bi);
 
-    public static void main(String[] args) {
+        GridPane root = new GridPane();
+        root.setPrefSize(700, 500);
+        root.setBackground(background);
+        root.setAlignment(Pos.CENTER);
+     //   root.setGridLinesVisible(true);
+
+        ColumnConstraints col1 = new ColumnConstraints(50);
+        root.getColumnConstraints().add(col1);
+
+        ColumnConstraints col2 = new ColumnConstraints(100);
+        root.getColumnConstraints().add(col2);
+
+        ColumnConstraints col3 = new ColumnConstraints(100);
+        root.getColumnConstraints().add(col3);
+
+        ColumnConstraints col4 = new ColumnConstraints(50);
+        root.getColumnConstraints().add(col4);
+
+
+        RowConstraints row1 = new RowConstraints(100);
+        root.getRowConstraints().add(row1);
+
+        TextField txtFld = new TextField ();
+        txtFld.setPromptText("Enter your name...");
+        txtFld.setAlignment(Pos.CENTER);
+        txtFld.setMinWidth(300);
+        txtFld.setStyle( "-fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK; ");
+
+        root.add(txtFld, 0,0);
+
+        Button newbtn1 = new Button();
+        newbtn1.setText("SAVE");
+        newbtn1.setMinWidth(200);
+        newbtn1.setStyle("  -fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK; ");
+
+        root.add(newbtn1, 1,1);
+
+
+        return root;
+    }
+
+        public static void main(String[] args) {
         launch(args);
     }
 
@@ -144,10 +248,10 @@ public class Menu extends Application {
 
         GridPane grid = new GridPane();
 
-        RowConstraints row1 = new RowConstraints(100);
+        RowConstraints row1 = new RowConstraints(50);
         grid.getRowConstraints().add(row1);
 
-        RowConstraints row2 = new RowConstraints(50);
+        RowConstraints row2 = new RowConstraints(100);
         grid.getRowConstraints().add(row2);
 
 
@@ -189,10 +293,23 @@ public class Menu extends Application {
 
     }
 
+    public void setName() {
+        primaryStage.setScene(new Scene(createName()));
+
+        primaryStage.show();
+    }
+
     public void theLastBoard() {
 
         primaryStage.setScene(new Scene(createEnd()));
         primaryStage.show();
+    }
+    public void setPlayerScore() {
+        playerScore = java.time.Duration.between(startTime, endTime).toMillis();
+    }
+
+    public String getScoreAsString() {
+        return "SCORE: " + playerScore/ 60000 + ":" + playerScore/ 1000 + "." + playerScore% 1000;
     }
 
     public void close() {
