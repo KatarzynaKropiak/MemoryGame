@@ -1,18 +1,13 @@
 import javafx.animation.FadeTransition;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
 
 
 public class Flag extends StackPane {

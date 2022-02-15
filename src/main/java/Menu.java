@@ -7,15 +7,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 
 public class Menu extends Application {
@@ -39,6 +40,10 @@ public class Menu extends Application {
     private LocalTime startTime;
     private LocalTime endTime;
     private long playerScore;
+    HashMap<String,Long> scoreFlag = new HashMap<>();
+    File savedHashMaps = new File("Rankingi.list");
+
+
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
@@ -181,6 +186,7 @@ public class Menu extends Application {
         return root;
     }
 
+
     public Parent createName() {
         BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, false, true, false);
         BackgroundFill backgroundFill = new BackgroundFill(Color.BLACK, null, null);
@@ -219,6 +225,7 @@ public class Menu extends Application {
         txtFld.setMinWidth(300);
         txtFld.setStyle( "-fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK; ");
 
+
         root.add(txtFld, 0,0);
 
         Button newbtn1 = new Button();
@@ -228,6 +235,46 @@ public class Menu extends Application {
 
         root.add(newbtn1, 1,1);
 
+    //    scoreFlag.put(txtFld.getText(), playerScore);
+
+        newbtn1.setOnAction((e) -> {
+            saveResult(txtFld.getText(), playerScore);
+            saveMap();
+            try {
+                theScoreBoard();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        return root;
+    }
+
+    public Parent createScoreBoard() throws  FileNotFoundException {
+        BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, false, true, false);
+        BackgroundFill backgroundFill = new BackgroundFill(Color.BLACK, null, null);
+        BackgroundImage backgroundImage = new BackgroundImage(imageback1, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+        BackgroundImage[] bi = new BackgroundImage[1];
+        bi[0] = backgroundImage;
+        BackgroundFill[] bf = new BackgroundFill[1];
+        bf[0] = backgroundFill;
+        Background background = new Background(bf, bi);
+
+        GridPane root = new GridPane();
+        root.setPrefSize(700, 500);
+        root.setBackground(background);
+        root.setAlignment(Pos.CENTER);
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("Rankingi.list").getFile());
+        Path path = Paths.get(file.getPath());
+
+        try {
+            Stream<String> fileLines = Files.lines(path);
+        } catch (IOException e) {
+            System.out.println("Błąd odczytu pliku");
+        }
+        System.out.println(file.getPath());
 
         return root;
     }
@@ -240,6 +287,11 @@ public class Menu extends Application {
     public void start(Stage primaryStage1)  throws Exception {
 
         primaryStage = primaryStage1;
+        loadMap();
+        scoreFlag.entrySet().stream().forEach(entry->{
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        });
+
 
         BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, false, true, false);
         BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
@@ -279,23 +331,29 @@ public class Menu extends Application {
         newbtn2.setStyle("; -fx-font-size: 2em; -fx-background-color: MIDNIGHTBLUE;  -fx-text-fill: LIGHTSKYBLUE; -fx-border-color: LIGHTSKYBLUE; ");
         grid.add(newbtn2, 3, 1);
 
+        newbtn2.setOnAction((e) -> {
+            try {
+                theScoreBoard();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+
         primaryStage1.setTitle("Memory cards");
         primaryStage1.setScene(scene);
         primaryStage1.show();
-
     }
 
 
     public void game() {
+
         primaryStage.setScene(new Scene(createContentFlag()));
-
         primaryStage.show();
-
     }
 
     public void setName() {
-        primaryStage.setScene(new Scene(createName()));
 
+        primaryStage.setScene(new Scene(createName()));
         primaryStage.show();
     }
 
@@ -304,14 +362,47 @@ public class Menu extends Application {
         primaryStage.setScene(new Scene(createEnd()));
         primaryStage.show();
     }
-    public void setPlayerScore() {
+
+    public void theScoreBoard() throws FileNotFoundException {
+
+        primaryStage.setScene(new Scene(createScoreBoard()));
+        primaryStage.show();
+    }
+
+    public double setPlayerScore() {
         playerScore = java.time.Duration.between(startTime, endTime).toMillis();
+        return playerScore;
     }
 
     public String getScoreAsString() {
         return "SCORE: " + playerScore/ 60000 + ":" + playerScore/ 1000 + "." + playerScore% 1000;
     }
 
+   public void saveResult(String name, long playerScore) {
+    scoreFlag.put(name, playerScore);
+    }
+
+    public void saveMap() {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(savedHashMaps));
+            oos.writeObject(scoreFlag);
+            oos.close();
+        } catch (Exception e) {
+        }
+    }
+
+    public void loadMap() {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(savedHashMaps));
+            Object readMap = ois.readObject();
+            if(readMap instanceof HashMap) {
+                scoreFlag.putAll((HashMap) readMap);
+            }
+            ois.close();
+        } catch (Exception e) {
+        }
+
+    }
     public void close() {
         primaryStage.close();
     }
