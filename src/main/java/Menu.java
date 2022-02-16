@@ -324,10 +324,15 @@ public class Menu extends Application {
             newbtn1.setOnAction((e) -> {
                 saveResult(txtFld.getText(), playerScore);
                 saveMap();
-                theScoreBoard("Flag");
+                theScoreBoard("FF");
+            });
+        } else if (savedHashMaps.getName().equals("RankingiNF.list")) {
+            newbtn1.setOnAction((e) -> {
+                saveResult(txtFld.getText(), playerScore);
+                saveMap();
+                theScoreBoard("NF");
             });
         }
-
         return root;
     }
 
