@@ -1,37 +1,27 @@
 import javafx.animation.FadeTransition;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
 
 
 public class Flag extends StackPane {
 
     public ImageView picture;
+    public String pair;
     private Flag selected = null;
     Menu menu;
     private static int isOpenCount = 0;
 
 
-//    private long playerScore;
-//
-//
-//    public long getPlayerScore() {
-//        return playerScore;
-//    }
-
-    public Flag(Image image, Menu menu) {
+    public Flag(Image image, Menu menu, String pair) {
         this.menu = menu;
+        this.pair = pair;
         this.picture = new ImageView(image);
         picture.setFitHeight(100);
         picture.setFitWidth(150);
@@ -73,10 +63,8 @@ public class Flag extends StackPane {
                 if (isOpenCount == Menu.getNUM_OF_PAIRS()) {
                     System.out.println("KONIEC");
                     menu.setEndTime(LocalTime.now());
-//                   System.out.println("End time: " + endTime);
                     menu.setPlayerScore();
                     System.out.println(menu.getScoreAsString());
-//                        System.out.println("Player score: " + getPlayerScore()/60000 + ":" + getPlayerScore()/1000 + ":" + getPlayerScore()%1000);
                     isOpenCount = 0;
                     menu.theLastBoard();
                 }
@@ -84,13 +72,8 @@ public class Flag extends StackPane {
                 menu.selected = null;
 
             });
-
         }
-
     }
-//    public String Score() {
-//        return "YOUR SCORE: " + getPlayerScore() / 60000 + ":" + getPlayerScore() / 1000 + ":" + getPlayerScore() % 1000;
-//    }
 
     public boolean isOpen() {
         return picture.getOpacity() == 1;
@@ -110,19 +93,13 @@ public class Flag extends StackPane {
     }
 
     public boolean hasSameValue(Flag other) {
-        if (picture.getImage() != null &&
-                other.picture.getImage() != null) {
+        if (pair != null &&
+                other.pair != null) {
             return
-                    picture.getImage().equals(other.picture.getImage());
+                    pair.equals(other.pair);
         } else
             return false;
     }
-
-
-//    public void setPlayerScore() {
-//        playerScore = java.time.Duration.between(menu.startTime, endTime).toMillis();
-//    }
-
 }
 
 
