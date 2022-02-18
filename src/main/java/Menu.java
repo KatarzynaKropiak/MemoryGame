@@ -69,7 +69,6 @@ public class Menu extends Application {
         scoreFlag.clear();
         loadMap();
         startTime = LocalTime.now();
-     //   String gameVer = "F";
         System.out.print("Start time: " + startTime);
 
         List<Flag> flags = new ArrayList<>();
@@ -174,14 +173,14 @@ public class Menu extends Application {
         newbtnS.setText(getScoreAsString());
         newbtnS.setMinWidth(300);
         newbtnS.setMinHeight(75);
-        newbtnS.setStyle(" -fx-font-size: 2.5em; -fx-font-weight: BOLD; -fx-background-color: BLACK;  -fx-text-fill: STEELBLUE; -fx-border-color: STEELBLUE; ");
+        newbtnS.setStyle("-fx-font-size: 2.5em; -fx-font-weight: BOLD; -fx-background-color: BLACK;  -fx-text-fill: STEELBLUE; -fx-border-color: STEELBLUE; ");
 
         root.add(newbtnS, 0, 0);
 
         Button newbtn1 = new Button();
         newbtn1.setText("SAVE");
         newbtn1.setMinWidth(200);
-        newbtn1.setStyle("  -fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK; ");
+        newbtn1.setStyle("-fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK;");
 
         newbtn1.setOnAction((e) -> {
             setName();
@@ -191,7 +190,7 @@ public class Menu extends Application {
         Button newbtn2 = new Button();
         newbtn2.setText("NEW GAME");
         newbtn2.setMinWidth(200);
-        newbtn2.setStyle("  -fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK; ");
+        newbtn2.setStyle("-fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK;");
 
         newbtn2.setOnAction((e) -> {
             chooseLvl("game");
@@ -240,14 +239,14 @@ public class Menu extends Application {
         label.setAlignment(Pos.CENTER);
         label.setMinWidth(200);
         label.setMinHeight(50);
-        label.setStyle(" -fx-font-size: 2em; -fx-font-weight: BOLD; -fx-background-color: BLACK;  -fx-text-fill: STEELBLUE; -fx-border-color: STEELBLUE");
+        label.setStyle("-fx-font-size: 2em; -fx-font-weight: BOLD; -fx-background-color: BLACK;  -fx-text-fill: STEELBLUE; -fx-border-color: STEELBLUE");
 
         root.add(label, 1,0);
 
         Button newbtn1 = new Button();
         newbtn1.setText("FLAG - NAME");
         newbtn1.setMinWidth(200);
-        newbtn1.setStyle("  -fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK; ");
+        newbtn1.setStyle("-fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK;");
 
         root.add(newbtn1, 1,1);
 
@@ -263,7 +262,7 @@ public class Menu extends Application {
             Button newbtn2 = new Button();
             newbtn2.setText("FLAG - FLAG");
             newbtn2.setMinWidth(200);
-            newbtn2.setStyle("  -fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK; ");
+            newbtn2.setStyle("-fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK;");
 
             root.add(newbtn2, 1,2);
 
@@ -308,7 +307,7 @@ public class Menu extends Application {
         txtFld.setPromptText("Enter your name...");
         txtFld.setAlignment(Pos.CENTER);
         txtFld.setMinWidth(200);
-        txtFld.setStyle( "-fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK; ");
+        txtFld.setStyle("-fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK;");
 
 
         root.add(txtFld, 1,0);
@@ -316,17 +315,18 @@ public class Menu extends Application {
         Button newbtn1 = new Button();
         newbtn1.setText("SAVE");
         newbtn1.setMinWidth(200);
-        newbtn1.setStyle("  -fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK; ");
+        newbtn1.setStyle("-fx-font-size: 2em; -fx-background-color: STEELBLUE;  -fx-text-fill: BLACK; -fx-border-color: BLACK;");
 
         root.add(newbtn1, 1,1);
 
-        if (savedHashMaps.getName().equals("Rankingi.list")) {
+
+        if ("Rankingi.list".equals(savedHashMaps.getName())) {
             newbtn1.setOnAction((e) -> {
                 saveResult(txtFld.getText(), playerScore);
                 saveMap();
                 theScoreBoard("FF");
             });
-        } else if (savedHashMaps.getName().equals("RankingiNF.list")) {
+        } else if ("RankingiNF.list".equals(savedHashMaps.getName())) {
             newbtn1.setOnAction((e) -> {
                 saveResult(txtFld.getText(), playerScore);
                 saveMap();
@@ -357,7 +357,7 @@ public class Menu extends Application {
         label.setAlignment(Pos.CENTER);
         label.setMinWidth(268);
         label.setMinHeight(43);
-        label.setStyle(" -fx-font-size: 2em; -fx-font-weight: BOLD; -fx-background-color: BLACK;  -fx-text-fill: STEELBLUE; -fx-border-color: STEELBLUE");
+        label.setStyle("-fx-font-size: 2em; -fx-font-weight: BOLD; -fx-background-color: BLACK;  -fx-text-fill: STEELBLUE; -fx-border-color: STEELBLUE");
 
         TableView table = new TableView();
         table.setEditable(false);
@@ -455,7 +455,7 @@ public class Menu extends Application {
         Button newbtn1 = new Button();
         newbtn1.setText("NEW GAME");
         newbtn1.setMinWidth(250);
-        newbtn1.setStyle("  -fx-font-size: 2em; -fx-background-color: MIDNIGHTBLUE;  -fx-text-fill: LIGHTSKYBLUE; -fx-border-color: LIGHTSKYBLUE; ");
+        newbtn1.setStyle("-fx-font-size: 2em; -fx-background-color: MIDNIGHTBLUE;  -fx-text-fill: LIGHTSKYBLUE; -fx-border-color: LIGHTSKYBLUE; ");
 
         newbtn1.setOnAction((e) -> {
             chooseLvl("game");
@@ -466,7 +466,7 @@ public class Menu extends Application {
         Button newbtn2 = new Button();
         newbtn2.setText("SCOREBOARD");
         newbtn2.setMinWidth(250);
-        newbtn2.setStyle("; -fx-font-size: 2em; -fx-background-color: MIDNIGHTBLUE;  -fx-text-fill: LIGHTSKYBLUE; -fx-border-color: LIGHTSKYBLUE; ");
+        newbtn2.setStyle("-fx-font-size: 2em; -fx-background-color: MIDNIGHTBLUE;  -fx-text-fill: LIGHTSKYBLUE; -fx-border-color: LIGHTSKYBLUE; ");
         grid.add(newbtn2, 3, 1);
 
         newbtn2.setOnAction((e) -> {
